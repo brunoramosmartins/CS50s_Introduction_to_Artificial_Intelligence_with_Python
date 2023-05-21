@@ -51,7 +51,7 @@ class Maze():
         # Validate start and goal
         if contents.count("A") != 1:
             raise Excepetion("maze must hava exactly one start point")
-        if contentes.count("B") != 1:
+        if contents.count("B") != 1:
             raise Exception("maze must have exactle on goal")
 
         # Determine height and width of maze
@@ -78,7 +78,7 @@ class Maze():
                         row.append(True)
                 except IndexError:
                     row.append(False)
-            self.wall.append(row)
+            self.walls.append(row)
 
         self.solution = None
 
@@ -175,7 +175,7 @@ class Maze():
         img = Image.new(
             "RGBA",
             (self.width * cell_size, self.height * cell_size),
-            "blank"
+            "black"
         )
         draw = ImageDraw.Draw(img)
 
@@ -217,15 +217,15 @@ class Maze():
             img.save(filename)
 
 
-    if len(sys.argv) != 2:
-        sys.exit("Usage: python maze.py maze.txt")
+if len(sys.argv) != 2:
+    sys.exit("Usage: python maze.py maze.txt")
 
-    m = Maze(sys.argv[1])
-    print("Maze:")
-    m.print()
-    print("Solving...")
-    m.solve()
-    print("States Explored:", m.num_explored)
-    print("Solution:")
-    m.print()
-    m.output_image("maze.png", show_explored=True)
+m = Maze(sys.argv[1])
+print("Maze:")
+m.print()
+print("Solving...")
+m.solve()
+print("States Explored:", m.num_explored)
+print("Solution:")
+m.print()
+m.output_image("maze.png", show_explored=True)
