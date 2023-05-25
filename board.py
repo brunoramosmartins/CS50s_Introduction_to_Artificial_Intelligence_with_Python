@@ -14,19 +14,23 @@ class Board(ABC):
     @property
     @abstractmethod
     def turn(self) -> Piece:
+        ...
 
     @abstractmethod
     def move(self, location: Move) -> Board:
+        ...
 
 
     @property
     @abstractmethod
     def legal_moves(self) -> List[Move]:
+        ...
 
 
     @property
     @abstractmethod
     def is_win(self) -> bool:
+        ...
 
 
     @property
@@ -35,3 +39,4 @@ class Board(ABC):
 
     @abstractmethod
     def evaluate(self, player: Piece) -> float:
+        ...
