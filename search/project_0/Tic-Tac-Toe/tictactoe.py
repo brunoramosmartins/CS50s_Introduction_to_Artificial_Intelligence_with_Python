@@ -34,14 +34,14 @@ def actions(board):
 
 def result(board, action):
     """
-    Returns the winner of the game, if there is one.
+    Returns the board that results from making move (i, j) on the board.
     """
     raise NotImplementedError
 
 
 def winner(board):
     """
-    Returns the wuinner of the game, if there is one.
+    Returns the winner of the game, if there is one.
     """
     raise NotImplementedError
 
