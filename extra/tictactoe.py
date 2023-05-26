@@ -46,7 +46,7 @@ class TTTBoard(Board):
         self.position[3] == self.position[4] and self.position[3] == self.position[5] and self.position[3] != TTTPiece.E or \
         self.position[6] == self.position[7] and self.position[6] == self.position[8] and self.position[6] != TTTPiece.E or \
         self.position[0] == self.position[3] and self.position[0] == self.position[6] and self.position[0] != TTTPiece.E or \
-        self.position[1] == self.position[4] and self.position[1] == self.position[5] and self.position[1] != TTTPiece.E or \
+        self.position[1] == self.position[4] and self.position[1] == self.position[7] and self.position[1] != TTTPiece.E or \
         self.position[2] == self.position[5] and self.position[2] == self.position[8] and self.position[2] != TTTPiece.E or \
         self.position[0] == self.position[4] and self.position[0] == self.position[8] and self.position[0] != TTTPiece.E or \
         self.position[2] == self.position[4] and self.position[2] == self.position[6] and self.position[2] != TTTPiece.E
@@ -63,7 +63,7 @@ class TTTBoard(Board):
 
     def __repr__(self) -> str:
         return f"""{self.position[0]}|{self.position[1]}|{self.position[2]}
-                    -----
-                   {self.position[3]}|{self.position[4]}|{self.position[5]}
-                    -----
-                   {self.position[6]}|{self.position[7]}|{self.position[8]}"""
+-----
+{self.position[3]}|{self.position[4]}|{self.position[5]}
+-----
+{self.position[6]}|{self.position[7]}|{self.position[8]}"""
