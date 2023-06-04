@@ -12,11 +12,11 @@ Cada situação possível pode ser pensada como um mundo, representado pela letr
 
 ## Axioms in Probability
 
-- $0<P(\omega)<1$:every value representing probability must range between 0 and 1.
+- $ 0<P(\omega)<1 $: every value representing probability must range between 0 and 1.
 
-    - Zero is an impossible event, like rolling a standard die and getting a 7.
-    - One is an event that is certain to happen, like rolling a standard die and getting a value less than 10.
-    - In general, the higher the value, the more likely the event is to happen.
+    * Zero is an impossible event, like rolling a standard die and getting a 7.
+    * One is an event that is certain to happen, like rolling a standard die and getting a value less than 10.
+    * In general, the higher the value, the more likely the event is to happen.
 
 - The probabilities of every possible event, when summed together, are equal to 1.
 
@@ -96,3 +96,4 @@ Independence is the knowledge that the occurrence of one event does not affect t
 Independence can be defined mathematically: events a and b are independent if and only if the probability of a and b is equal to the probability of a times the probability of b: $$P(a ∧ b) = P(a)P(b)$$
 
 ## Bayes’ Rule
+
