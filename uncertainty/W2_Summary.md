@@ -12,7 +12,7 @@ Cada situação possível pode ser pensada como um mundo, representado pela letr
 
 ## Axioms in Probability
 
-- $ 0<P(\omega)<1 $: every value representing probability must range between 0 and 1.
+- $0<P(\omega)<1$: every value representing probability must range between 0 and 1.
 
     * Zero is an impossible event, like rolling a standard die and getting a 7.
     * One is an event that is certain to happen, like rolling a standard die and getting a value less than 10.
