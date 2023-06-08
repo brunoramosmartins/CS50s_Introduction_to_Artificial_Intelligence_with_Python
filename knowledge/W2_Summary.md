@@ -382,3 +382,73 @@ Observe que estamos interessados apenas nos modelos em que o KB é verdadeiro. S
 Além disso, a forma como a função `check_all` funciona é recursiva. Ou seja, ele pega um símbolo, cria dois modelos, em um o símbolo é verdadeiro e no outro o símbolo é falso, e então chama a si mesmo novamente, agora com dois modelos que diferem pela atribuição de verdade deste símbolo. A função continuará fazendo isso até que todos os símbolos tenham seus valores de verdade atribuídos nos modelos, deixando a lista de símbolos vazia. Uma vez vazio (conforme identificado pela linha, se não símbolos), em cada instância da função (em que cada instância contém um modelo diferente), a função verifica se o KB é verdadeiro dado o modelo. Se a KB for verdadeira neste modelo, a função verifica se a consulta é verdadeira, conforme descrito anteriormente.
 
 # Knowledge Engineering
+
+A engenharia do conhecimento é o processo de descobrir como representar proposições e lógica na IA.
+
+Vamos praticar a engenharia do conhecimento usando o jogo Clue.
+
+No jogo, um assassinato foi cometido por uma pessoa, utilizando uma ferramenta em um local. Pessoas, ferramentas e locais são representados por cartas. Uma carta de cada categoria é escolhida aleatoriamente e colocada em um envelope, cabendo aos participantes desvendar o mistério. Os participantes o fazem descobrindo cartas e deduzindo dessas pistas o que deve estar no envelope. Usaremos o algoritmo de Verificação de modelo anterior para desvendar o mistério. Em nosso modelo, marcamos como `Verdadeiros` os itens que sabemos que estão relacionados ao assassinato e `Falsos` caso contrário.
+
+Para nossos propósitos, suponha que temos três pessoas: Mustard, Plum e Scarlet, três ferramentas: faca, revólver e chave inglesa e três locais: salão de baile, cozinha e biblioteca.
+
+Podemos começar a criar nossa base de conhecimento adicionando as regras do jogo. Sabemos com certeza que uma pessoa é o assassino, que uma ferramenta foi usada e que o assassinato aconteceu em um local. Isso pode ser representado na lógica proposicional da seguinte maneira:
+
+(Mustard ∨ Plum ∨ Scarlet)
+
+(knife ∨ revolver ∨ wrench)
+
+(ballroom ∨ kitchen ∨ library)
+
+O jogo começa com cada jogador vendo uma pessoa, uma ferramenta e um local, sabendo assim que não estão relacionados ao assassinato. Os jogadores não compartilham as informações que viram nessas cartas. Suponha que nosso jogador receba as cartas Mostarda, cozinha e revólver. Assim, sabemos que estes não estão relacionados ao assassinato e podemos adicionar ao nosso KB
+
+¬(Mustard)
+
+¬(kitchen)
+
+¬(revolver)
+
+Em outras situações do jogo, pode-se dar um palpite, sugerindo uma combinação de pessoa, ferramenta e local. Suponha que o palpite seja que Scarlet usou uma chave inglesa para cometer o crime na biblioteca. Se esse palpite estiver errado, o seguinte pode ser deduzido e adicionado ao KB:
+
+(¬Scarlet ∨ ¬biblioteca ∨ ¬chave)
+
+Agora, suponha que alguém nos mostre o cartão Plum. Assim, podemos adicionar
+
+¬(Plum)
+
+ao nosso KB.
+
+Neste ponto, podemos concluir que o assassino é Scarlet, já que tem que ser um dos Mustard, Plum e Scarlet, e temos evidências de que os dois primeiros não são.
+
+Acrescentar apenas mais um conhecimento, por exemplo, de que não é o salão de baile, pode nos dar mais informações. Primeiro, atualizamos nosso KB
+
+¬(ballroom)
+
+E agora, usando vários dados anteriores, podemos deduzir que Scarlet cometeu o assassinato com uma faca na biblioteca. Podemos deduzir que é a biblioteca porque tem que ser o salão de baile, a cozinha ou a biblioteca, e os dois primeiros provaram não ser os locais. No entanto, quando alguém adivinhou Scarlet, biblioteca, chave inglesa, o palpite foi falso. Assim, pelo menos um dos elementos nesta declaração tem que ser falso. Como sabemos que Scarlet e a biblioteca são verdadeiras, sabemos que a chave inglesa é a parte falsa aqui. Como um dos três instrumentos tem que ser verdadeiro, e não é a chave nem o revólver, podemos concluir que é a faca.
+
+Aqui está como as informações seriam adicionadas à base de conhecimento em Python:
+
+```Python
+
+# Add the clues to the KB
+knowledge = And(
+
+    # Start with the game conditions: one item in each of the three categories has to be true.
+    Or(mustard, plum, scarlet),
+    Or(ballroom, kitchen, library),
+    Or(knife, revolver, wrench),
+
+    # Add the information from the three initial cards we saw
+    Not(mustard),
+    Not(kitchen),
+    Not(revolver),
+
+    # Add the guess someone made that it is Scarlet, who used a wrench in the library
+    Or(Not(scarlet), Not(library), Not(wrench)),
+
+    # Add the cards that we were exposed to
+    Not(plum),
+    Not(ballroom)
+)
+
+```
+
