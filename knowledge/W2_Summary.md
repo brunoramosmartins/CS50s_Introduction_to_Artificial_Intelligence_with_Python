@@ -128,7 +128,7 @@ As tabelas de verdade são usadas para comparar todas as atribuições de verdad
 <center>
 
 |**P**|**¬P**|
-|:-|:-:|
+|:-:|:-:|
 |false|true|
 |true| false|
 
@@ -139,7 +139,7 @@ As tabelas de verdade são usadas para comparar todas as atribuições de verdad
 <center>
 
 |**P**|**Q**|**P ∧ Q**|
-|:-|:-|:-:|
+|:-:|:-:|:-:|
 |false|false|false|
 |false|true|false|
 |true|false|false|
@@ -152,7 +152,7 @@ As tabelas de verdade são usadas para comparar todas as atribuições de verdad
 <center>
 
 |**P**|**Q**|**P ∨ Q**|
-|:-|:-|:-:|
+|:-:|:-:|:-:|
 |false|false|false|
 |false|true|true|
 |true|false|true|
@@ -184,7 +184,7 @@ Por outro lado, quando o antecedente é falso, a implicação é sempre verdadei
 <center>
 
 |**P**|**Q**|**P → Q**|
-|:-|:-|:-:|
+|:--:|:--:|:--:|
 |false|false|true|
 |false|true|true|
 |true|false|false|
@@ -197,7 +197,7 @@ Por outro lado, quando o antecedente é falso, a implicação é sempre verdadei
 <center>
 
 |**P**|**Q**|**P ↔ Q**|
-|:-|:-|:-:|
+|:--:|:--:|:--:|
 |false|false|true|
 |false|true|false|
 |true|false|false|
@@ -220,3 +220,165 @@ A base de conhecimento é um conjunto de sentenças conhecidas por um agente bas
 Se α ⊨ β (α Entailment β), então em qualquer mundo onde α é verdadeiro, β também é verdadeiro.
 
 Por exemplo, se α: “É uma terça-feira em janeiro” e β: “É uma terça-feira”, então sabemos que α ⊨ β. Se é verdade que é terça-feira em janeiro, também sabemos que é terça-feira. Entailment é diferente de implication. implication é um conectivo lógico entre duas proposições. O Entailment, por outro lado, é uma relação que significa que se toda a informação em α for verdadeira, então toda a informação em β é verdadeira.
+
+# Inference
+
+A inferência é o processo de derivar novas sentenças de antigas.
+
+Por exemplo, no exemplo anterior de Harry Potter, as sentenças 4 e 5 foram inferidas das sentenças 1, 2 e 3.
+
+Existem várias maneiras de inferir novos conhecimentos com base no conhecimento existente. Primeiro, vamos considerar o algoritmo `Model Checking`.
+
+- Para determinar se KB ⊨ α (em outras palavras, respondendo à pergunta: “podemos concluir que α é verdadeiro com base em nossa base de conhecimento”)
+
+    - Enumere todos os modelos possíveis.
+    -   Se em todo modelo onde KB é verdadeiro, α também é verdadeiro, então KB implica α (KB ⊨ α).
+
+Considere o seguinte exemplo:
+
+P: É uma terça-feira. P: Está chovendo. R: Harry vai correr. KB: (P ∧ ¬Q) → R (em palavras, P e não Q implica R) P (P é verdadeiro) ¬Q (Q é falso) Questão: R (Queremos saber se R é verdadeiro ou falso; KB ⊨ R?)
+
+Para responder à consulta usando o algoritmo Model Checking, enumeramos todos os modelos possíveis.
+
+<center>
+
+|   P  |   Q  |   R  |  KB  | 
+| :--: | :--: | :--: | :--: |   
+| false| false| false|      |  	 
+| false| false| true | 	    |  
+| false| true | false| 	    |  
+| false| true | true | 	    |  
+| true | false| false| 	    |  
+| true | false| true | 	    |  
+| true | true | false| 	    |  
+| true | true | true | 	    |
+
+</center>
+
+Em seguida, examinamos todos os modelos e verificamos se são verdadeiros em nossa Base de Conhecimento.
+
+Primeiro, em nosso KB, sabemos que P é verdadeiro. Assim, podemos dizer que o KB é falso em todos os modelos onde P não é verdadeiro.
+
+<center>
+
+|   P  |   Q  |   R  |  KB  | 
+| :--: | :--: | :--: | :--: |   
+| false| false| false| false|
+| false| false| true | false|  
+| false| true | false| false|  
+| false| true | true | false|  
+| true | false| false| 	    |  
+| true | false| true | 	    |  
+| true | true | false| 	    |  
+| true | true | true | 	    |
+
+</center>
+
+Em seguida, da mesma forma, em nosso KB, sabemos que Q é falso. Assim, podemos dizer que o KB é falso em todos os modelos onde Q é verdadeiro.
+
+<center>
+
+|   P  |   Q  |   R  |  KB  | 
+| :--: | :--: | :--: | :--: |   
+| false| false| false| false|
+| false| false| true | false|  
+| false| true | false| false|  
+| false| true | true | false|  
+| true | false| false| 	    |  
+| true | false| true | 	    |  
+| true | true | false| false|  
+| true | true | true | false|
+
+</center>
+
+Por fim, ficamos com dois modelos. Em ambos, P é verdadeiro e Q é falso. Em um modelo R é verdadeiro e no outro R é falso. Devido a (P ∧ ¬Q) → R estar em nosso KB, sabemos que no caso em que P é verdadeiro e Q é falso, R deve ser verdadeiro. Assim, dizemos que nosso KB é falso para o modelo em que R é falso e verdadeiro para o modelo em que R é verdadeiro.
+
+|   P  |   Q  |   R  |  KB  | 
+| :--: | :--: | :--: | :--: |   
+| false| false| false| false|
+| false| false| true | false|  
+| false| true | false| false|  
+| false| true | true | false|  
+| true | false| false| <span style="color:red">**false**</span>   |  	    |  
+| true | false| true | <span style="color:green">**true**</span>   |  
+| true | true | false| false|  
+| true | true | true | false|
+
+Olhando para esta tabela, há apenas um modelo onde nossa base de conhecimento é verdadeira. Neste modelo, vemos que R também é verdadeiro. Pela nossa definição de implicação, se R é verdadeiro em todos os modelos onde o KB é verdadeiro, então KB ⊨ R.
+
+Em seguida, vamos ver como o conhecimento e a lógica podem ser representados como código.
+
+```Python
+
+from logic import *
+
+# Create new classes, each having a name, or a symbol, representing each proposition.
+rain = Symbol("rain")  # It is raining.
+hagrid = Symbol("hagrid")  # Harry visited Hagrid
+dumbledore = Symbol("dumbledore")  # Harry visited Dumbledore
+
+# Save sentences into the KB
+knowledge = And(  # Starting from the "And" logical connective, becasue each proposition represents knowledge that we know to be true.
+
+    Implication(Not(rain), hagrid),  # ¬(It is raining) → (Harry visited Hagrid)
+
+    Or(hagrid, dumbledore),  # (Harry visited Hagrid) ∨ (Harry visited Dumbledore).
+
+    Not(And(hagrid, dumbledore)),  # ¬(Harry visited Hagrid ∧ Harry visited Dumbledore) i.e. Harry did not visit both Hagrid and Dumbledore.
+
+    dumbledore  # Harry visited Dumbledore. Note that while previous propositions contained multiple symbols with connectors, this is a proposition consisting of one symbol. This means that we take as a fact that, in this KB, Harry visited Dumbledore.
+    )
+
+```
+
+Para executar o algoritmo de verificação de modelo, são necessárias as seguintes informações:
+
+- Base de conhecimento, que será usada para fazer inferências
+- Uma consulta, ou a proposição que nos interessa se é implicada pela KB
+- Símbolos, uma lista de todos os símbolos (ou proposições atômicas) usados (no nosso caso, são chuva, hagrid e dumbledore)
+- Modelo, uma atribuição de valores verdadeiros e falsos a símbolos
+
+O algoritmo de verificação do modelo é o seguinte:
+
+```Python
+
+def check_all(knowledge, query, symbols, model):
+
+    # If model has an assignment for each symbol
+    # (The logic below might be a little confusing: we start with a list of symbols. The function is recursive, and every time it calls itself it pops one symbol from the symbols list and generates models from it. Thus, when the symbols list is empty, we know that we finished generating models with every possible truth assignment of symbols.)
+    if not symbols:
+
+        # If knowledge base is true in model, then query must also be true
+        if knowledge.evaluate(model):
+            return query.evaluate(model)
+        return True
+    else:
+
+        # Choose one of the remaining unused symbols
+        remaining = symbols.copy()
+        p = remaining.pop()
+
+        # Create a model where the symbol is true
+        model_true = model.copy()
+        model_true[p] = True
+
+        # Create a model where the symbol is false
+        model_false = model.copy()
+        model_false[p] = False
+
+        # Ensure entailment holds in both models
+        return(check_all(knowledge, query, remaining, model_true) and check_all(knowledge, query, remaining, model_false))
+
+```
+
+Observe que estamos interessados apenas nos modelos em que o KB é verdadeiro. Se o KB for falso, então as condições que sabemos serem verdadeiras não estão ocorrendo nesses modelos, tornando-os irrelevantes para o nosso caso.
+
+---
+
+>Um exemplo de palestra externa: Let P: Harry joga como apanhador, Q: Oliver joga como goleiro, R: Grifinória vence. Nosso KB especifica que P Q (P ∧ Q) → R. Em outras palavras, sabemos que P é verdadeiro, ou seja, Harry joga como apanhador, e que Q é verdadeiro, ou seja, Oliver joga como goleiro, e que se P e Q são verdadeiros, então R também é verdadeiro, o que significa que a Grifinória venceu a partida. Agora imagine um modelo onde Harry jogava como batedor em vez de apanhador (portanto, Harry não jogava como apanhador, ¬P). Bem, neste caso, não nos importa se a Grifinória ganhou (se R é verdadeiro ou não), porque temos a informação em nosso KB de que Harry jogou como apanhador e não como batedor. Estamos interessados apenas nos modelos em que, como no nosso caso, P e Q são verdadeiros.)
+
+---
+
+Além disso, a forma como a função `check_all` funciona é recursiva. Ou seja, ele pega um símbolo, cria dois modelos, em um o símbolo é verdadeiro e no outro o símbolo é falso, e então chama a si mesmo novamente, agora com dois modelos que diferem pela atribuição de verdade deste símbolo. A função continuará fazendo isso até que todos os símbolos tenham seus valores de verdade atribuídos nos modelos, deixando a lista de símbolos vazia. Uma vez vazio (conforme identificado pela linha, se não símbolos), em cada instância da função (em que cada instância contém um modelo diferente), a função verifica se o KB é verdadeiro dado o modelo. Se a KB for verdadeira neste modelo, a função verifica se a consulta é verdadeira, conforme descrito anteriormente.
+
+# Knowledge Engineering
