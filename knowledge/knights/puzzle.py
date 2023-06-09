@@ -58,6 +58,7 @@ knowledge2 = And(
 # B says "A said 'I am a knave'."
 # B says "C is a knave."
 # C says "A is a knight."
+
 knowledge3 = And(
 
     Or(AKnight, AKnave),
