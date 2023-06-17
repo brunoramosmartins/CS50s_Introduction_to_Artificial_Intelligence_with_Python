@@ -486,4 +486,80 @@ A verificação de modelo não é um algoritmo eficiente porque tem que consider
 
 As regras de inferência são geralmente representadas por uma barra horizontal que separa a parte superior, a premissa, da parte inferior, a conclusão. A premissa é qualquer conhecimento que tenhamos, e a conclusão é o conhecimento que pode ser gerado com base na premissa.
 
+<center>
+
+**If is raining, then Harry is inside.**
+
+**It is raining.**
+
+---
+
+**Harry is inside.**
+</center>
+
+Neste exemplo, nossa premissa consiste nas seguintes proposições:
+
+- Se estiver chovendo, então Harry está dentro.
+- Está chovendo.
+
+Com base nisso, a maioria dos humanos razoáveis pode concluir que
+
+- Harry está lá dentro.
+
+**Modus ponens**
+
+O tipo de regra de inferência que usamos neste exemplo é Modus Ponens, que é uma maneira sofisticada de dizer que, se soubermos que uma implicação e seu antecedente são verdadeiros, então o consequente também é verdadeiro.
+
+<center>
+
+**$\alpha \rightarrow \beta$**
+
+**$\alpha$**
+
+---
+
+**$\beta$**
+</center>
+
+**And Elimination**
+
+If an And proposition is true, then any one atomic proposition within it is true as well. For example, if we know that Harry is friends with Ron and Hermione, we can conclude that Harry is friends with Hermione.
+
+<center>
+
+**$\alpha ∧ \beta$**
+
+---
+
+**$\alpha$**
+</center>
+
+
+**Double Negation Elimination**
+
+A proposition that is negated twice is true. For example, consider the proposition “It is not true that Harry did not pass the test”. We can parse it the following way: “It is not true that (Harry did not pass the test)”, or “¬(Harry did not pass the test)”, and, finally “¬(¬(Harry passed the test)).” The two negations cancel each other, marking the proposition “Harry passed the test” as true.
+
+<center>
+
+**$¬(¬\alpha)$**
+
+---
+
+**$\alpha$**
+
+</center>
+
+**Implication Elimination**
+
+An implication is equivalent to an Or relation between the negated antecedent and the consequent. As an example, the proposition “If it is raining, Harry is inside” is equivalent to the proposition “(it is not raining) or (Harry is inside).”
+
+<center>
+
+**$\alpha \rightarrow \beta$**
+
+---
+
+**$¬\alpha∨\beta$**
+
+</center>
 
