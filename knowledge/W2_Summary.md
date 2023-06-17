@@ -452,3 +452,38 @@ knowledge = And(
 
 ```
 
+Também podemos olhar para outros quebra-cabeças lógicos. Considere o seguinte exemplo: quatro pessoas diferentes, Gilderoy, Pomona, Minerva e Horace, são designadas para quatro casas diferentes, Grifinória, Lufa-Lufa, Corvinal e Sonserina. Há exatamente uma pessoa em cada casa. Representar as condições do quebra-cabeça na lógica proposicional é bastante complicado. Primeiro, cada uma das atribuições possíveis terá que ser uma proposição em si: MinervaGryffindor, MinervaHufflepuff, MinervaRavenclaw, MinervaSlytherin, PomonaGryffindor…
+
+Em segundo lugar, para representar que cada pessoa pertence a uma casa, é necessária uma declaração Or com todas as possíveis atribuições de casas por pessoa
+
+(MinervaGryffindor ∨ MinervaHufflepuff ∨ MinervaRavenclaw ∨ MinervaSlytherin), repeat for every person.
+
+Then, to encode that if one person is assigned to one house, they are not assigned to the other houses, we will write
+
+(MinervaGryffindor → ¬MinervaHufflepuff) ∧ (MinervaGryffindor → ¬MinervaRavenclaw) ∧ (MinervaGryffindor → ¬MinervaSlytherin) ∧ (MinervaHufflepuff → ¬MinervaGryffindor)…
+
+e assim por diante para todas as casas e todas as pessoas. Uma solução para essa ineficiência é oferecida na seção sobre lógica de primeira ordem. No entanto, esse tipo de enigma ainda pode ser resolvido com qualquer tipo de lógica, com dicas suficientes.
+
+Outro tipo de quebra-cabeça que pode ser resolvido usando a lógica proposicional é o jogo Mastermind. Neste jogo, o jogador um organiza as cores em uma determinada ordem e, em seguida, o jogador dois deve adivinhar essa ordem. A cada turno, o jogador dois dá um palpite e o jogador um devolve um número, indicando quantas cores o jogador dois acertou. Vamos simular um jogo com quatro cores. Suponha que o jogador dois sugira a seguinte ordem:
+
+$${red, blue, green, yellow}$$
+
+O jogador um responde “dois”. Assim, sabemos que duas das cores estão na posição correta e as outras duas estão no lugar errado. Com base nessas informações, o jogador dois tenta trocar as localizações de duas cores.
+
+$${blue, red, green, yellow}$$
+
+Agora o jogador um responde “zero”. Assim, o jogador dois sabe que as cores trocadas estavam no local certo inicialmente, o que significa que as duas cores intocadas estavam no local errado. O jogador dois os troca.
+
+$${red, blue, yellow, green}$$
+
+O jogador um diz “quatro” e o jogo acaba.
+
+Representar isso na lógica proposicional exigiria que tivéssemos (número de cores)² proposições atômicas. Assim, no caso de quatro cores, teríamos as proposições red0, red1, red2, red3, blue0... representando cor e posição. O próximo passo seria representar as regras do jogo em lógica proposicional (que há apenas uma cor em cada posição e nenhuma cor se repete) e adicioná-las à KB. A etapa final seria adicionar todas as sugestões que temos à KB. No nosso caso, acrescentaríamos que, no primeiro palpite, duas posições estavam erradas e duas corretas, e no segundo palpite, nenhuma estava certa. Usando esse conhecimento, um algoritmo de Verificação de Modelo pode nos dar a solução para o quebra-cabeça.
+
+# Inference Rules
+
+A verificação de modelo não é um algoritmo eficiente porque tem que considerar todos os modelos possíveis antes de dar a resposta (um lembrete: uma consulta R é verdadeira se sob todos os modelos (atribuições de verdade) onde o KB é verdadeiro, R também é verdadeiro). As regras de inferência nos permitem gerar novas informações com base no conhecimento existente sem considerar todos os modelos possíveis.
+
+As regras de inferência são geralmente representadas por uma barra horizontal que separa a parte superior, a premissa, da parte inferior, a conclusão. A premissa é qualquer conhecimento que tenhamos, e a conclusão é o conhecimento que pode ser gerado com base na premissa.
+
+
