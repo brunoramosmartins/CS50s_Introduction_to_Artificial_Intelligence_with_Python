@@ -563,3 +563,5 @@ An implication is equivalent to an Or relation between the negated antecedent an
 
 </center>
 
+This one can be a little confusing. However, consider the following truth table:
+
